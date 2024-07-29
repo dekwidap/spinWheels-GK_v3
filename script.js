@@ -11,6 +11,7 @@ let prizes = [
     '4K TV', 'VR Headset', 'Projector', 'Robot Vacuum'
 ];
 let isSpinning = false;
+let hasSpun = false; // Variable to track if the user has already spun the wheel
 let currentAngle = 0;
 let spinTimeout;
 
@@ -38,7 +39,8 @@ function drawWheel() {
 }
 
 function spin() {
-    if (isSpinning) return;
+    if (isSpinning || hasSpun) return; // Prevent spinning if already spinning or has spun
+
     isSpinning = true;
     message.textContent = 'Good luck!';
     let spinAngle = (Math.random() * 3000 + 3000) * 0.35; // Adjust this to control the randomness and speed (35%)
@@ -69,6 +71,8 @@ function stopSpin() {
     const prizeIndex = Math.floor(totalSlices - ((currentAngle % 360) / (360 / totalSlices)));
     message.textContent = `You won: ${prizes[prizeIndex]}!`;
     isSpinning = false;
+    hasSpun = true; // Set the flag to true indicating the user has spun the wheel
+    spinButton.textContent = 'DONE'; // Change the button text to 'Done'
 }
 
 function shuffleArray(array) {
@@ -92,6 +96,7 @@ window.onload = function() {
     shuffleArray(prizes); // Shuffle prizes when the page loads
     drawWheel(); // Redraw the wheel with shuffled prizes
     showData1(); // Initialize with Data1
+    document.getElementById('currentYear').textContent = new Date().getFullYear(); // Set current year in footer
 }
 
 const winners = [];
