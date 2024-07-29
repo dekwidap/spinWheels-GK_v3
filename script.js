@@ -12,6 +12,7 @@ let prizes = [
 ];
 let isSpinning = false;
 let hasSpun = false; // Variable to track if the user has already spun the wheel
+let canSpin = true; // Global variable to check if the user can spin
 let currentAngle = 0;
 let spinTimeout;
 
@@ -39,7 +40,7 @@ function drawWheel() {
 }
 
 function spin() {
-    if (isSpinning || hasSpun) return; // Prevent spinning if already spinning or has spun
+    if (isSpinning || !canSpin) return; // Prevent spinning if already spinning or can't spin
 
     isSpinning = true;
     message.textContent = 'Good luck!';
@@ -72,7 +73,8 @@ function stopSpin() {
     message.textContent = `You won: ${prizes[prizeIndex]}!`;
     isSpinning = false;
     hasSpun = true; // Set the flag to true indicating the user has spun the wheel
-    spinButton.textContent = 'DONE'; // Change the button text to 'Done'
+    canSpin = false; // Set canSpin to false indicating the user can't spin again
+    spinButton.textContent = 'Done'; // Change the button text to 'Done'
 }
 
 function shuffleArray(array) {
