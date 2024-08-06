@@ -213,3 +213,9 @@ table tr:nth-child(odd) {
 table tr:nth-child(even) {
   background-color: #ffe6cc;
 }
+
+
+/* Prevent scrolling */
+.no-scroll {
+  overflow: hidden;
+}
