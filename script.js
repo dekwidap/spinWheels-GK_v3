@@ -11,7 +11,7 @@ let prizes = [
     '4K TV', 'VR Headset', 'Projector', 'Robot Vacuum'
 ];
 let isSpinning = false;
-let hasSpun = false; // Variable to track if the user has already spun the wheel
+let hasSpun = false;
 let canSpin = true; // Global variable to check if the user can spin
 let currentAngle = 0;
 let spinTimeout;
@@ -39,30 +39,34 @@ function drawWheel() {
     }
 }
 
+// Easing function for cubic ease-out effect
+function cubicEaseOut(t) {
+    return 1 - Math.pow(1 - t, 3);
+}
+
 function spin() {
-    if (isSpinning || !canSpin) return; // Prevent spinning if already spinning or can't spin
+    if (isSpinning || !canSpin) return;
 
     isSpinning = true;
     message.textContent = 'Good luck!';
-    let spinAngle = (Math.random() * 3000 + 3000) * 0.35; // Adjust this to control the randomness and speed (35%)
-    let duration = 3000; // Duration of the spin in milliseconds
+    let spinAngle = Math.random() * 3000 + 3000; // Random angle between 3000 and 6000 degrees
+    let duration = 5000; // 5 seconds
 
     const startTime = Date.now();
 
     function rotate() {
         const currentTime = Date.now();
         const elapsed = currentTime - startTime;
+        const t = Math.min(elapsed / duration, 1); // t goes from 0 to 1
 
-        if (elapsed >= duration) {
-            clearTimeout(spinTimeout);
+        if (t < 1) {
+            const easedT = cubicEaseOut(t);
+            currentAngle = spinAngle * easedT;
+            wheel.style.transform = `rotate(${currentAngle}deg)`;
+            spinTimeout = requestAnimationFrame(rotate);
+        } else {
             stopSpin();
-            return;
         }
-
-        currentAngle += (spinAngle / duration) * (1000 / 60); // Adjust speed here
-        wheel.style.transform = `rotate(${currentAngle}deg)`;
-
-        spinTimeout = setTimeout(rotate, 1000 / 60); // 60 FPS
     }
 
     rotate();
@@ -72,9 +76,9 @@ function stopSpin() {
     const prizeIndex = Math.floor(totalSlices - ((currentAngle % 360) / (360 / totalSlices)));
     message.textContent = `You won: ${prizes[prizeIndex]}!`;
     isSpinning = false;
-    hasSpun = true; // Set the flag to true indicating the user has spun the wheel
-    canSpin = false; // Set canSpin to false indicating the user can't spin again
-    spinButton.textContent = 'Done'; // Change the button text to 'Done'
+    hasSpun = true;
+    canSpin = false;
+    spinButton.textContent = 'Done';
 }
 
 function shuffleArray(array) {
@@ -84,21 +88,23 @@ function shuffleArray(array) {
     }
 }
 
-// Show popup when page loads
 window.onload = function() {
     const popup = document.getElementById('popup');
     const closePopupButton = document.getElementById('close-popup');
     
+    // Show the popup and prevent scrolling
     popup.classList.add('show');
+    document.body.classList.add('no-scroll');
     
     closePopupButton.addEventListener('click', () => {
         popup.classList.remove('show');
+        document.body.classList.remove('no-scroll'); // Allow scrolling after closing the popup
     });
 
-    shuffleArray(prizes); // Shuffle prizes when the page loads
-    drawWheel(); // Redraw the wheel with shuffled prizes
-    showData1(); // Initialize with Data1
-    document.getElementById('currentYear').textContent = new Date().getFullYear(); // Set current year in footer
+    shuffleArray(prizes);
+    drawWheel();
+    showData1();
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
 }
 
 const winners = [];
