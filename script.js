@@ -74,11 +74,37 @@ function spin() {
 
 function stopSpin() {
     const prizeIndex = Math.floor(totalSlices - ((currentAngle % 360) / (360 / totalSlices)));
-    message.textContent = `You won: ${prizes[prizeIndex]}!`;
+    // message.textContent = `You won: ${prizes[prizeIndex]}!`;
     isSpinning = false;
     hasSpun = true;
     canSpin = false;
     spinButton.textContent = 'Done';
+
+    // Display the prize popup
+    const prizePopup = document.getElementById('prize-popup');
+    const winnerName = document.getElementById('winner-name');
+    const winnerPrize = document.getElementById('winner-prize');
+
+    winnerName.textContent = `Nama Pemenang: ${getRandomWinner()}`;
+    winnerPrize.textContent = `Hadiah: ${prizes[prizeIndex]}`;
+
+    prizePopup.classList.add('show');
+    document.body.classList.add('no-scroll');
+}
+
+function closePrizePopup() {
+    const prizePopup = document.getElementById('prize-popup');
+    prizePopup.classList.remove('show');
+    document.body.classList.remove('no-scroll');
+}
+
+function redirect() {
+    window.location.href = 'https://www.example.com'; // Replace with your desired link
+}
+
+function getRandomWinner() {
+    const names = ['Alice', 'Bob', 'Charlie', 'David', 'Eva', 'Frank', 'Grace', 'Hannah', 'Ivy', 'Jack', 'Kara', 'Liam', 'Mia', 'Nora', 'Oscar'];
+    return names[Math.floor(Math.random() * names.length)];
 }
 
 function shuffleArray(array) {

@@ -219,3 +219,11 @@ table tr:nth-child(even) {
 .no-scroll {
   overflow: hidden;
 }
+
+
+/* A Href Button Pop Up Announcement Winner */
+.memberarea {
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
+}
