@@ -74,22 +74,26 @@ function spin() {
 
 function stopSpin() {
     const prizeIndex = Math.floor(totalSlices - ((currentAngle % 360) / (360 / totalSlices)));
-    // message.textContent = `You won: ${prizes[prizeIndex]}!`;
+    
     isSpinning = false;
     hasSpun = true;
     canSpin = false;
     spinButton.textContent = 'Done';
 
-    // Display the prize popup
-    const prizePopup = document.getElementById('prize-popup');
-    const winnerName = document.getElementById('winner-name');
-    const winnerPrize = document.getElementById('winner-prize');
+    // Menunggu 3 detik sebelum menampilkan popup
+    setTimeout(() => {
+        // Display the prize popup
+        const prizePopup = document.getElementById('prize-popup');
+        const winnerName = document.getElementById('winner-name');
+        const winnerPrize = document.getElementById('winner-prize');
 
-    winnerName.textContent = `Nama Pemenang: ${getRandomWinner()}`;
-    winnerPrize.textContent = `Hadiah: ${prizes[prizeIndex]}`;
+        winnerName.textContent = `Nama Pemenang: ${getRandomWinner()}`;
+        winnerPrize.textContent = `Hadiah: ${prizes[prizeIndex]}`;
 
-    prizePopup.classList.add('show');
-    document.body.classList.add('no-scroll');
+        prizePopup.style.display = 'flex';
+        prizePopup.classList.add('show');
+        document.body.classList.add('no-scroll');
+    }, 3000); // 3000 milidetik = 3 detik
 }
 
 function closePrizePopup() {
