@@ -8,7 +8,7 @@ body {
   font-family: Arial, sans-serif;
   padding: 20px;
   box-sizing: border-box;
-  background-image: url("background.jpg");
+  background-image: url("bgSpin.jpg");
   background-size: cover;
   background-position: center;
   overflow-y: auto; /* Ensure body can scroll */
