@@ -93,7 +93,7 @@ function stopSpin() {
         prizePopup.style.display = 'flex';
         prizePopup.classList.add('show');
         document.body.classList.add('no-scroll');
-    }, 3000); // 3000 milidetik = 3 detik
+    }, 1500); // 3000 milidetik = 3 detik
 }
 
 function closePrizePopup() {
